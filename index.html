@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gopal Dhudh Daily</title>
+  <style>
+    :root {
+      --bg: #f4f9f3;
+      --card: #ffffff;
+      --primary: #2e7d32;
+      --primary-dark: #1f5f27;
+      --accent: #eaf7eb;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --danger: #d32f2f;
+      --warning: #f59e0b;
+      --border: #dfe9e1;
+      --shadow: 0 10px 22px rgba(22, 45, 29, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f4f9f3 0%, #edf7ee 100%);
+      color: var(--text);
+      font-family: "Noto Sans Devanagari", "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 40px;
+    }
+
+    .topbar {
+      background: var(--primary);
+      color: white;
+      border-radius: 16px;
+      padding: 18px 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.4rem, 2.4vw, 2.3rem);
+      line-height: 1.2;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      opacity: 0.9;
+      font-size: 0.8rem;
+    }
+
+    .status-pill {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 16px 14px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+      font-weight: 800;
+      color: var(--primary-dark);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 420px) 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    h2 {
+      margin: 0 0 14px 0;
+      font-size: 1.2rem;
+      color: var(--primary-dark);
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 0.96rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 84px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 15px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .secondary {
+      background: var(--accent);
+      color: var(--primary-dark);
+      border: 1px solid #cfead0;
+    }
+
+    .danger {
+      background: #fff1f1;
+      color: var(--danger);
+      border: 1px solid #f3c7c7;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 820px;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #edf2ee;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: #f6faf7;
+      color: var(--primary-dark);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    tbody tr:hover {
+      background: #fafdfb;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 26px 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .small-note {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      color: #475569;
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <h1>Gopal Dhudh Daily</h1>
+        <small>डेयरी ग्राहक प्रबंधन</small>
+      </div>
+      <div class="status-pill">Offline Demo</div>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <div class="stat-label">कुल ग्राहक</div>
+        <div class="stat-value" id="totalCustomers">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">कुल दूध (लीटर)</div>
+        <div class="stat-value" id="totalMilk">0.0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">कुल जमा</div>
+        <div class="stat-value" id="totalDeposit">₹0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">कुल बाकी</div>
+        <div class="stat-value" id="totalBalance">₹0</div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="panel">
+        <h2>नया ग्राहक जोड़ें</h2>
+
+        <form id="customerForm">
+          <div class="field">
+            <label for="customerName">ग्राहक का नाम</label>
+            <input id="customerName" type="text" placeholder="राम कुमार" required />
+          </div>
+
+          <div class="field">
+            <label for="mobile">मोबाइल नंबर</label>
+            <input id="mobile" type="tel" placeholder="98765 43210" required />
+          </div>
+
+          <div class="field">
+            <label for="shopAddress">दुकान का पता</label>
+            <textarea id="shopAddress" placeholder="मुख्य बाजार, गोरखपुर" required></textarea>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="milkQty">दूध की मात्रा (लीटर)</label>
+              <input id="milkQty" type="number" min="0" step="0.1" placeholder="2.5" required />
+            </div>
+
+            <div class="field">
+              <label for="date">तारीख</label>
+              <input id="date" type="date" required />
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="field">
+              <label for="deposit">जमा राशि</label>
+              <input id="deposit" type="number" min="0" step="1" placeholder="500" required />
+            </div>
+
+            <div class="field">
+              <label for="balance">बाकी राशि</label>
+              <input id="balance" type="number" min="0" step="1" placeholder="200" required />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="primary" type="submit">ग्राहक जोड़ें</button>
+            <button class="secondary" type="button" id="saveBtn">रिकाॅर्ड सेव करें</button>
+          </div>
+
+          <div class="actions">
+            <button class="secondary" type="button" id="downloadCsvBtn">CSV डाउनलोड</button>
+            <button class="danger" type="button" id="clearBtn">सभी रिकॉर्ड साफ़ करें</button>
+          </div>
+
+          <div class="small-note">
+            नोट: यह Demo वेबसाइट केवल LocalStorage में डेटा सेव करती है। इसमें कोई भुगतान वाली API या Google Maps स्क्रेपिंग नहीं है।
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <h2>ग्राहक रिकॉर्ड</h2>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>ग्राहक</th>
+                <th>मोबाइल</th>
+                <th>पता</th>
+                <th>दूध (L)</th>
+                <th>जमा</th>
+                <th>बाकी</th>
+                <th>तारीख</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "gopalDhudhDailyRecordsV1";
+
+    function getDefaultDate() {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, "0");
+      const dd = String(now.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+
+    function loadRecords() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) {
+        const demo = [
+          {
+            customerName: "राम कुमार",
+            mobile: "9876543210",
+            shopAddress: "मुख्य बाजार, गोरखपुर",
+            milkQty: 2.5,
+            deposit: 500,
+            balance: 150,
+            date: getDefaultDate()
+          },
+          {
+            customerName: "संजय यादव",
+            mobile: "9123456780",
+            shopAddress: "हरिहरपुर, बस्ती",
+            milkQty: 3.0,
+            deposit: 600,
+            balance: 200,
+            date: getDefaultDate()
+          }
+        ];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(demo));
+        return demo;
+      }
+
+      try {
+        const parsed = JSON.parse(stored);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+        return [];
+      }
+    }
+
+    function saveRecords(records) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function money(value) {
+      return "₹" + Number(value || 0).toLocaleString("en-IN");
+    }
+
+    function renderStats(records) {
+      const totalCustomers = records.length;
+      const totalMilk = records.reduce((sum, item) => sum + Number(item.milkQty || 0), 0);
+      const totalDeposit = records.reduce((sum, item) => sum + Number(item.deposit || 0), 0);
+      const totalBalance = records.reduce((sum, item) => sum + Number(item.balance || 0), 0);
+
+      document.getElementById("totalCustomers").textContent = totalCustomers;
+      document.getElementById("totalMilk").textContent = totalMilk.toFixed(1);
+      document.getElementById("totalDeposit").textContent = money(totalDeposit);
+      document.getElementById("totalBalance").textContent = money(totalBalance);
+    }
+
+    function renderTable() {
+      const records = loadRecords();
+
+      const tbody = document.getElementById("recordsBody");
+      if (!records.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" class="empty">कोई रिकॉर्ड नहीं मिला।</td>
+          </tr>
+        `;
+        renderStats(records);
+        return;
+      }
+
+      tbody.innerHTML = records.map((record, index) => {
+        const dateText = record.date ? new Date(record.date + "T00:00:00").toLocaleDateString("hi-IN", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric"
+        }) : "-";
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHtml(record.customerName || "")}</td>
+            <td>${escapeHtml(record.mobile || "")}</td>
+            <td>${escapeHtml(record.shopAddress || "")}</td>
+            <td>${Number(record.milkQty || 0).toFixed(1)}</td>
+            <td>${money(record.deposit || 0)}</td>
+            <td>${money(record.balance || 0)}</td>
+            <td>${dateText}</td>
+          </tr>
+        `;
+      }).join("");
+
+      renderStats(records);
+    }
+
+    function validateForm() {
+      const customerName = document.getElementById("customerName").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const shopAddress = document.getElementById("shopAddress").value.trim();
+      const milkQty = document.getElementById("milkQty").value.trim();
+      const date = document.getElementById("date").value;
+      const deposit = document.getElementById("deposit").value.trim();
+      const balance = document.getElementById("balance").value.trim();
+
+      if (!customerName || !mobile || !shopAddress || !milkQty || !date || !deposit || !balance) {
+        alert("कृपया सभी फील्ड भरें।");
+        return null;
+      }
+
+      return {
+        customerName,
+        mobile,
+        shopAddress,
+        milkQty: Number(milkQty),
+        date,
+        deposit: Number(deposit),
+        balance: Number(balance)
+      };
+    }
+
+    function addCustomer() {
+      const values = validateForm();
+      if (!values) return;
+
+      const records = loadRecords();
+      records.push(values);
+      saveRecords(records);
+      renderTable();
+      document.getElementById("customerForm").reset();
+      document.getElementById("date").value = getDefaultDate();
+      alert("ग्राहक सफलतापूर्वक जोड़ दिया गया!");
+    }
+
+    document.getElementById("customerForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      addCustomer();
+    });
+
+    document.getElementById("saveBtn").addEventListener("click", function () {
+      const records = loadRecords();
+      saveRecords(records);
+      alert("डेटा सेव हो गया है।");
+    });
+
+    document.getElementById("downloadCsvBtn").addEventListener("click", function () {
+      const records = loadRecords();
+      if (!records.length) {
+        alert("CSV डाउनलोड करने के लिए कोई रिकॉर्ड नहीं है।");
+        return;
+      }
+
+      const header = ["ग्राहक का नाम", "मोबाइल नंबर", "दुकान का पता", "दूध की मात्रा (लीटर)", "जमा राशि", "बाकी राशि", "तारीख"];
+      const rows = records.map(item => [
+        item.customerName || "",
+        item.mobile || "",
+        item.shopAddress || "",
+        item.milkQty || 0,
+        item.deposit || 0,
+        item.balance || 0,
+        item.date || ""
+      ]);
+
+      const csvRows = [header, ...rows].map(row =>
+        row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")
+      );
+
+      const csvContent = csvRows.join("\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "gopal_dudh_daily_records.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById("clearBtn").addEventListener("click", function () {
+      const confirmClear = confirm("क्या आप सभी रिकॉर्ड साफ़ करना चाहते हैं?");
+      if (!confirmClear) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      saveRecords([]);
+      renderTable();
+      alert("सभी रिकॉर्ड साफ़ कर दिए गए।");
+    });
+
+    document.getElementById("date").value = getDefaultDate();
+    renderTable();
+  </script>
+</body>
+</html>
